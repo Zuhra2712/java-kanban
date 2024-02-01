@@ -1,7 +1,7 @@
 package model;
 
 public class Subtask  extends Task {
-    Epic epic;
+     private  Epic epic;
 
     public Subtask(String nameTask, Epic epic) {
         super(nameTask);
@@ -13,7 +13,7 @@ public class Subtask  extends Task {
         this.epic = epic;
     }
 
-    @Override
+
     public Epic getEpic() {
         return epic;
     }

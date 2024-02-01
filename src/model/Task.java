@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 public class Task {
-    private int ID;
+    private int taskId;
     private String nameTask;
     private String descriptionTask;
     private Status status;
@@ -12,15 +12,11 @@ public class Task {
         this.nameTask = nameTask;
     }
 
-    public Task(int ID, String nameTask, String descriptionTask, Status status) {
-        this.ID = ID;
+    public Task(int taskId, String nameTask, String descriptionTask, Status status) {
+        this.taskId = taskId;
         this.nameTask = nameTask;
         this.descriptionTask = descriptionTask;
         this.status = status;
-    }
-
-    public Epic getEpic() {
-        return null;
     }
 
     public String getNameTask() {
@@ -39,12 +35,12 @@ public class Task {
         this.descriptionTask = descriptionTask;
     }
 
-    public int getID() {
-        return ID;
+    public int getTaskId() {
+        return taskId;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
     public Status getStatus() {
@@ -59,7 +55,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "ID=" + ID +
+                "ID=" + taskId +
                 ", nameTask='" + nameTask + '\'' +
                 ", descriptionTask='" + descriptionTask + '\'' +
                 ", status=" + status +
@@ -71,7 +67,7 @@ public class Task {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Task task = (Task) object;
-        return ID == task.ID && Objects.equals(nameTask, task.nameTask) && Objects.equals(descriptionTask, task.descriptionTask) && status == task.status;
+        return taskId == task.taskId && Objects.equals(nameTask, task.nameTask) && Objects.equals(descriptionTask, task.descriptionTask) && status == task.status;
     }
 
     @Override
