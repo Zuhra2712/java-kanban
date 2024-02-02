@@ -8,6 +8,9 @@ public class Task {
     private String descriptionTask;
     private Status status;
 
+    public Task() {
+    }
+
     public Task(String nameTask) {
         this.nameTask = nameTask;
     }

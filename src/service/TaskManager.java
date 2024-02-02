@@ -42,8 +42,8 @@ public class TaskManager {
         subtask.setTaskId(generateId());
         subTasks.put(subtask.getTaskId(), subtask);
         Epic epic = epics.get(subtask.getEpic().getTaskId());
-        epic.addSubTask(subtask);
-        calculateStatus(epic);
+      //  epic.addSubTask(subtask);
+      //  calculateStatus(epic);
         return subtask;
     }
 
@@ -74,9 +74,10 @@ public class TaskManager {
     }
 
     public void deleteEpic(int id) {
-        Epic epic = epics.get(id);
-        epics.remove(id, epic);
-
+        Epic epicDelete = epics.get(id);
+        ArrayList<Subtask> subtasksDelete = epics.get(epicDelete.getTaskId()).getSubtasks();
+        subtasksDelete.clear();
+        epics.remove(epicDelete.getTaskId());
     }
 
 
@@ -93,9 +94,9 @@ public class TaskManager {
         if (saved == null) {
             return;
         }
-        saved.setSubtasks(epic.getSubtasks());
-        saved.setDescriptionTask(epic.getDescriptionTask());
-        calculateStatus(saved);
+        saved.setNameTask(epic.getNameTask());
+        epics.put(epic.getTaskId(),saved);
+
     }
 
     public void updateSubtask(Subtask subtask){
@@ -104,10 +105,11 @@ public class TaskManager {
             return;
         }
         Epic epic = updateSubTask.getEpic();
-        ArrayList<Subtask> newSubtask = (ArrayList<Subtask>) epic.getSubtasks();
-        newSubtask.add(updateSubTask);
-        epic.setSubtasks(newSubtask);
+        epic.getSubtasks().remove(updateSubTask);
+        Epic epicResult = epics.get(epic.getTaskId());
+        epicResult.getSubtasks().add(subtask.getTaskId(),subtask);
         calculateStatus(epic);
+        calculateStatus(epicResult);
     }
 
     public Task get(int id) {
@@ -128,7 +130,7 @@ public class TaskManager {
     }
 
     public void calculateStatus(Epic epic) {
-        List<Subtask> subtaskArrayList = epic.getSubtasks();
+        ArrayList<Subtask> subtaskArrayList = epic.getSubtasks();
         if (subtaskArrayList.isEmpty()) {
             epic.setStatus(Status.NEW);
         }
