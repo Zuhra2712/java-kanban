@@ -1,18 +1,54 @@
 package service;
 
 import model.Epic;
-import model.Status;
 import model.Subtask;
 import model.Task;
-
-import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        HistoryManager historyManager = new InMemoryHistoryManager();
+        TaskManager taskManager = new InMemoryTaskManager(historyManager);
         Task task = taskManager.createTask(new Task("Переезд"));
-        System.out.println("Create task: " + task);
+        System.out.println(task);//если без этой строчки ,то некорректно присваивается id для Task
+        Task task1 = taskManager.createTask(new Task("Закончить учебу"));
+        System.out.println(task1);
+        Task task2= taskManager.createTask(new Task("Сходить в поход"));
+        System.out.println(task2);
+        Task task3 = taskManager.createSubtask(new Subtask("Собрать вещи",new Epic("Сбор в коробки")));
+        Task task4 = taskManager.createSubtask(new Subtask("Расторгнуть договор ",new Epic("Договора ")));
+        Task task5 = taskManager.createSubtask(new Subtask("Продлить договор аренды",new Epic("Пакет документов")));
+        Task task6 = taskManager.createEpic(new Epic("Первый эпик"));
+        Task task7 = taskManager.createEpic(new Epic("Второй эпик"));
+        Task task8 = taskManager.createEpic(new Epic("Третий эпик"));
+
+
+            System.out.println("Задачи:");
+            for (Task taskk : taskManager.getAllTask()) {
+                System.out.println(task);
+            }
+            System.out.println("Эпики:");
+            for (Task epic : taskManager.getAllEpic()) {
+                System.out.println(epic);
+
+           //     for (Task taskk : taskManager.getEpicSubtask(epic.getTaskId())) {
+            //        System.out.println("--> " + task);
+            //    }
+            }
+            System.out.println("Подзадачи:");
+            for (Task subtask : taskManager.getAllSubtask()) {
+                System.out.println(subtask);
+            }
+
+            System.out.println("История:");
+            for (Task taskk : taskManager.getHistory()) {
+                System.out.println(task);
+            }
+        System.out.println("-----------------------------------------------------");
+
+        System.out.println("Create task: " + task1);
+        System.out.println("Create task: " + task2);
+
 
         Task taskFromManager = taskManager.get(task.getTaskId());
         System.out.println("Get task: " + taskFromManager);
@@ -24,5 +60,33 @@ public class Main {
         taskManager.deleteTask(taskFromManager.getTaskId());
         System.out.println("Delete:" + task);
 
+
     }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+

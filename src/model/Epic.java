@@ -10,6 +10,14 @@ public class Epic extends Task {
         super(nameTask);
         this.subtasks = subtasks;
     }
+    public Epic(String nameTask, String descriptionTask, Status status) {
+        this.setNameTask(nameTask);
+        this.setDescriptionTask(descriptionTask);
+        this.setStatus(status);
+    }
+    public  Epic(String name){
+        this.setNameTask(name);
+    }
 
     public Epic(int ID, String nameTask, String descriptionTask, Status status, ArrayList<Subtask> subtasks) {
         super(ID, nameTask, descriptionTask, status);

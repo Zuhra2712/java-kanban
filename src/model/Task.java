@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public class Task {
     private int taskId;
     private String nameTask;
@@ -69,6 +67,20 @@ public class Task {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
+
+        Task task = (Task) object;
+
+        return taskId == task.taskId;
+    }
+
+    @Override
+    public int hashCode() {
+        return taskId;
+    }
+    /* @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
         Task task = (Task) object;
         return taskId == task.taskId && Objects.equals(nameTask, task.nameTask) && Objects.equals(descriptionTask, task.descriptionTask) && status == task.status;
     }
@@ -85,7 +97,7 @@ public class Task {
         }
         hash = hash * 31;
         return hash;
-    }
+    }*/
 
 
 }
