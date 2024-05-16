@@ -1,21 +1,23 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Epic extends Task {
-     private ArrayList<Subtask> subtasks = new ArrayList<>();
+
+    private ArrayList<Subtask> subtasks = new ArrayList<>();
 
     public Epic(String nameTask, ArrayList<Subtask> subtasks) {
         super(nameTask);
         this.subtasks = subtasks;
     }
-    public Epic(String nameTask, String descriptionTask, Status status) {
+
+    public Epic(int ID, String nameTask, String descriptionTask, Status status) {
         this.setNameTask(nameTask);
         this.setDescriptionTask(descriptionTask);
         this.setStatus(status);
     }
-    public  Epic(String name){
+
+    public Epic(String name) {
         this.setNameTask(name);
     }
 
@@ -28,7 +30,7 @@ public class Epic extends Task {
     }
 
     public ArrayList<Subtask> getSubtasks() {
-        return  new ArrayList<>(subtasks);
+        return new ArrayList<>(subtasks);
     }
 
     public void addSubTask(Subtask subtask) {

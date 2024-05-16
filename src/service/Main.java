@@ -15,9 +15,9 @@ public class Main {
         System.out.println(task1);
         Task task2= taskManager.createTask(new Task("Сходить в поход"));
         System.out.println(task2);
-        Task task3 = taskManager.createSubtask(new Subtask("Собрать вещи",new Epic("Сбор в коробки")));
-        Task task4 = taskManager.createSubtask(new Subtask("Расторгнуть договор ",new Epic("Договора ")));
-        Task task5 = taskManager.createSubtask(new Subtask("Продлить договор аренды",new Epic("Пакет документов")));
+        Task task3 = taskManager.createSubtask(new Subtask("Написать  договор", 1));
+        Task task4 = taskManager.createSubtask(new Subtask("Подписать договор", 2));
+        Task task5 = taskManager.createSubtask(new Subtask("Отправить договор", 3));
         Task task6 = taskManager.createEpic(new Epic("Первый эпик"));
         Task task7 = taskManager.createEpic(new Epic("Второй эпик"));
         Task task8 = taskManager.createEpic(new Epic("Третий эпик"));
