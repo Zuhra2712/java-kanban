@@ -11,7 +11,7 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, Task> tasks = new HashMap<>();
-    public HashMap<Integer, Epic> epics = new HashMap<>();
+    protected HashMap<Integer, Epic> epics = new HashMap<>();
     protected HashMap<Integer, Subtask> subTasks = new HashMap<>();
 
     protected final HistoryManager historyManager;
