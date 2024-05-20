@@ -1,10 +1,10 @@
 package model;
 
 public class Task {
-    private int taskId;
-    private String nameTask;
-    private String descriptionTask;
-    private Status status;
+    protected int taskId;
+    protected String nameTask;
+    protected String descriptionTask;
+    protected Status status;
 
     public Task() {
     }
@@ -20,6 +20,9 @@ public class Task {
         this.status = status;
     }
 
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
     public String getNameTask() {
         return nameTask;
     }

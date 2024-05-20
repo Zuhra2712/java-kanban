@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InMemoryTaskManagerTest {
     HistoryManager historyManager = new InMemoryHistoryManager();
@@ -26,7 +26,7 @@ class InMemoryTaskManagerTest {
     }
     @Test
     public void shouldCreateEpic() {
-        Epic epic = taskManager.createEpic(new Epic("Эпик","поход в кино",Status.NEW));
+        Epic epic = taskManager.createEpic(new Epic(1, "Эпик", "поход в кино", Status.NEW));
 
         List<Epic> epics = taskManager.getAllEpic();
         assertEquals(1,epic.getTaskId());
@@ -37,11 +37,11 @@ class InMemoryTaskManagerTest {
     @Test
     public void shouldCreateSubtask() {
         Epic epic = taskManager.createEpic(new Epic("Переезд"));
-        Subtask subtask = taskManager.createSubtask(new Subtask("Собрать коробки",epic));
+        Subtask subtask = taskManager.createSubtask(new Subtask("Переезд", 1));
 
         List<Subtask> subtasks = taskManager.getAllSubtask();
 
-        assertEquals(epic.getTaskId(), subtask.getEpic().getTaskId());
+        assertEquals(epic.getTaskId(), subtask.getEpicId());
         assertEquals(List.of(subtask), subtasks);
     }
 
@@ -55,8 +55,8 @@ class InMemoryTaskManagerTest {
     @Test
     public void shouldDeleteEpic() {
         Epic epic = taskManager.createEpic(new Epic("Эпик"));
-        taskManager.createSubtask(new Subtask("Собрать коробки",epic));
-        taskManager.createSubtask(new Subtask("Расторгнуть договор",epic));
+        taskManager.createSubtask(new Subtask("Купить путевку", 1));
+        taskManager.createSubtask(new Subtask("Собрать чемодан", 2));
 
         taskManager.deleteEpic(epic.getTaskId());
 
