@@ -81,6 +81,10 @@ public class Task {
         return taskId;
     }
 
+    public Integer getEpicId() {
+        return null;
+    }
+
     /* @Override
     public boolean equals(Object object) {
         if (this == object) return true;
