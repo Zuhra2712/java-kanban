@@ -30,7 +30,7 @@ public class Epic extends Task {
     }
 
     public ArrayList<Subtask> getSubtasks() {
-        return new ArrayList<>(subtasks);
+        return subtasks;
     }
 
     public void addSubTask(Subtask subtask) {
@@ -45,6 +45,11 @@ public class Epic extends Task {
 
     public void setSubtasks(ArrayList<Subtask> subtasks) {
         this.subtasks = subtasks;
+    }
+
+
+    public void removeAllSubtasks() {
+        subtasks.clear();
     }
 
 

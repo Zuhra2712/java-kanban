@@ -51,11 +51,16 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask createSubtask(Subtask subtask) {
         subtask.setTaskId(generateId());
         subTasks.put(subtask.getTaskId(), subtask);
+        //   epics.get(subtask.getEpicId()).addSubTask(subtask);
+        //  calculateStatus(subtask.getEpicId());
+        return subtask;
+        /*subtask.setTaskId(generateId());
+        subTasks.put(subtask.getTaskId(), subtask);
         int epic = epics.get(subtask.getEpicId()).getTaskId();
         Epic epic1 = epics.get(epic);
         epic1.addSubTask(subtask);
         calculateStatus(subtask.getEpicId());
-        return subtask;
+        return subtask;*/
     }
 
     @Override
@@ -159,6 +164,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
 
+
     @Override
     public void calculateStatus(int epicId) {
         Epic epic = epics.get(epicId);
@@ -182,5 +188,38 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
+    protected void restoreId(int id) {
+        this.seq = id;
+    }
+
+    public void deleteAllTasks() {
+        for (Integer i : tasks.keySet()) {
+            historyManager.remove(i);
+
+        }
+        tasks.clear();
+    }
+
+    public void deleteAllSubtasks() {
+        for (Epic epic : epics.values()) {
+            epic.removeAllSubtasks();
+            epic.setStatus(Status.NEW);
+        }
+        for (Integer i : subTasks.keySet()) {
+            historyManager.remove(i);
+
+        }
+        subTasks.clear();
+
+    }
+
+    public void deleteAllEpics() {
+        for (Integer i : epics.keySet()) {
+            historyManager.remove(i);
+
+        }
+        epics.clear();
+        subTasks.clear();
+    }
 }
 
