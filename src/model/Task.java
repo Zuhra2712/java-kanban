@@ -56,15 +56,13 @@ public class Task {
         this.status = status;
     }
 
-    private String toString(Task task) {
-        return task.getTaskId() + "," + task.getType() + "," + task.getNameTask() + "," + task.getStatus() + "," + task.getDescriptionTask();
-    }
+
 
     public static Task taskFromString(String value) {
         final String[] result = value.split(",");
         int id = Integer.parseInt(result[0]);
         TaskType taskType = TaskType.valueOf(result[1].trim());
-        String name = result[3];
+        String name = result[2];
         Status taskStatus = Status.valueOf(result[3].trim());
         String taskDescription = result[4];
 
@@ -83,13 +81,21 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return Task.this.getTaskId() + ","
+                + Task.this.getType() + ","
+                + Task.this.getNameTask() + ","
+                + Task.this.getStatus() + ","
+                + Task.this.getDescriptionTask() + ","
+                + null;
+
+    }
+       /* return "Task{" +
                 "ID=" + taskId +
                 ", nameTask='" + nameTask + '\'' +
                 ", descriptionTask='" + descriptionTask + '\'' +
                 ", status=" + status +
                 '}';
-    }
+    }*/
 
     @Override
     public boolean equals(Object object) {

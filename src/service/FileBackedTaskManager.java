@@ -55,6 +55,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         final List<Task> taskHistory = historyManager.gethistory();
         StringBuilder idHistory = new StringBuilder();
 
+
         for (Task task : taskHistory) {
             idHistory.append(task.getTaskId()).append(",");
 
@@ -76,15 +77,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 bufferedWriter.write(entry.getValue().toString());
                 bufferedWriter.newLine();
             }
+            for (Map.Entry<Integer, Epic> entry : epics.entrySet()) {
+                bufferedWriter.write(entry.getValue().toString());
+                bufferedWriter.newLine();
+            }
             for (Map.Entry<Integer, Subtask> entry : subTasks.entrySet()) {
                 bufferedWriter.write(entry.getValue().toString());
                 bufferedWriter.newLine();
 
             }
-            for (Map.Entry<Integer, Epic> entry : epics.entrySet()) {
-                bufferedWriter.write(entry.getValue().toString());
-                bufferedWriter.newLine();
-            }
+
             bufferedWriter.write("\n");
             bufferedWriter.write(historyToString(historyManager));
 
@@ -129,7 +131,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     break;
                 }
                 Task task = taskFromString(line);
-                assert task != null;
+
                 manager.addTask(task, task.getTaskId());
 
                 lastTaskId = Math.max(task.getTaskId(), lastTaskId);
@@ -229,24 +231,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Task updateTask(Task task) {
+    public void updateTask(Task task) {
         super.updateTask(task);
         save();
-        return task;
     }
 
     @Override
-    public Epic updateEpic(Epic epic) {
+    public void updateEpic(Epic epic) {
         super.updateEpic(epic);
         save();
-        return epic;
     }
 
     @Override
-    public Subtask updateSubtask(Subtask subtask) {
+    public void updateSubtask(Subtask subtask) {
         super.updateSubtask(subtask);
         save();
-        return subtask;
     }
 }
 

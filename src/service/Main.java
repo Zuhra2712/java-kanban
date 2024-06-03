@@ -19,13 +19,13 @@ public class Main {
         File file = new File(String.valueOf(path));
 
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
-        Task task1 = manager.createTask(new Task(1, "task 1 description", "D1", Status.NEW));
-        Task task2 = manager.createTask(new Task(2, "task 2 description", "D2", Status.NEW));
-        Epic epic1 = manager.createEpic(new Epic(1, "Epic1", "D3", Status.NEW));
-        Epic epic2 = manager.createEpic(new Epic(2, "Epic2", "D4", Status.NEW));
-        Subtask subTask1 = manager.createSubtask(new Subtask(1, "Subtask1", "D5", Status.NEW, 1));
-        Subtask subTask2 = manager.createSubtask(new Subtask(1, "Subtask2", "D6", Status.NEW, 1));
-        Subtask subTask3 = manager.createSubtask(new Subtask(1, "Subtask3", "D7", Status.NEW, 1));
+        Task task1 = manager.createTask(new Task(1, "Таск1", "Описание таск1", Status.NEW));
+        Task task2 = manager.createTask(new Task(2, "Таск2", "Описание таск2", Status.NEW));
+        Epic epic1 = manager.createEpic(new Epic(3, "Эпик1", "Описание Эпик1", Status.NEW));
+        Epic epic2 = manager.createEpic(new Epic(4, "Эпик2", "Описание Эпик2", Status.NEW));
+        Subtask subTask1 = manager.createSubtask(new Subtask(5, "Subtask1", "D5", Status.NEW, 3));
+        Subtask subTask2 = manager.createSubtask(new Subtask(6, "Subtask2", "D6", Status.NEW, 3));
+        Subtask subTask3 = manager.createSubtask(new Subtask(7, "Subtask3", "D7", Status.NEW, 3));
 
         manager.get(task1.getTaskId());
         manager.get(task2.getTaskId());
@@ -36,7 +36,7 @@ public class Main {
         manager.getSubtask(subTask3.getTaskId());
 
         printAllTasks(manager);
-        System.out.println("--------------");
+        System.out.println("-------------------------------------------------------------------");
 
         FileBackedTaskManager restoredManager = new FileBackedTaskManager(file);
         restoredManager = loadFromFile(restoredManager.file);
@@ -44,7 +44,7 @@ public class Main {
         System.out.println("restored tasks printed");
         Task task3 = restoredManager.createTask(new Task(3, "task 3 description", "D3", Status.NEW));
         restoredManager.createTask(task3);
-        System.out.println("-----------------------");
+        System.out.println("*******************************************************************");
 
 
         printAllTasks(restoredManager);
