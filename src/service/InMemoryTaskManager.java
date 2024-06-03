@@ -51,8 +51,8 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask createSubtask(Subtask subtask) {
         subtask.setTaskId(generateId());
         subTasks.put(subtask.getTaskId(), subtask);
-        //   epics.get(subtask.getEpicId()).addSubTask(subtask);
-        //  calculateStatus(subtask.getEpicId());
+        // epics.get(subtask.getEpicId()).addSubTask(subtask);
+        // calculateStatus(subtask.getEpicId());
         return subtask;
         /*subtask.setTaskId(generateId());
         subTasks.put(subtask.getTaskId(), subtask);
@@ -164,6 +164,42 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
 
+    @Override
+    public void deleteAllTasks() {
+        for (Integer i : tasks.keySet()) {
+            historyManager.remove(i);
+
+        }
+        tasks.clear();
+
+    }
+
+    @Override
+    public void deleteAllSubtasks() {
+        for (Epic epic : epics.values()) {
+            epic.removeAllSubtasks();
+            epic.setStatus(Status.NEW);
+        }
+        for (Integer i : subTasks.keySet()) {
+            historyManager.remove(i);
+
+        }
+        subTasks.clear();
+
+
+    }
+
+    @Override
+    public void deleteAllEpics() {
+        for (Integer i : epics.keySet()) {
+            historyManager.remove(i);
+
+        }
+        epics.clear();
+        subTasks.clear();
+
+    }
+
 
     @Override
     public void calculateStatus(int epicId) {
@@ -192,34 +228,6 @@ public class InMemoryTaskManager implements TaskManager {
         this.seq = id;
     }
 
-    public void deleteAllTasks() {
-        for (Integer i : tasks.keySet()) {
-            historyManager.remove(i);
 
-        }
-        tasks.clear();
-    }
-
-    public void deleteAllSubtasks() {
-        for (Epic epic : epics.values()) {
-            epic.removeAllSubtasks();
-            epic.setStatus(Status.NEW);
-        }
-        for (Integer i : subTasks.keySet()) {
-            historyManager.remove(i);
-
-        }
-        subTasks.clear();
-
-    }
-
-    public void deleteAllEpics() {
-        for (Integer i : epics.keySet()) {
-            historyManager.remove(i);
-
-        }
-        epics.clear();
-        subTasks.clear();
-    }
 }
 

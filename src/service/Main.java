@@ -9,13 +9,13 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static service.ClassForTesting.printAllTasks;
 import static service.FileBackedTaskManager.loadFromFile;
-import static service.FileBackedTaskManager.printAllTasks;
 
 public class Main {
 
     public static void main(String[] args) {
-        Path path = Paths.get("./resources/.csv");
+        Path path = Paths.get("resourses/taskT.csv");
         File file = new File(String.valueOf(path));
 
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
@@ -54,16 +54,11 @@ public class Main {
         }
         System.out.println("\n");
 
-     /*   System.out.println("--------print subTaskIds arrays (if any)------------");
-        for (Map.Entry<Integer, Epic> item : restoredManager.epics.entrySet()) {
-            System.out.println(item.getValue().getNameTask() + ", " + item.getValue().getTaskId());
-            for (Integer id : item.getValue().getEpicId()) {
-                System.out.println(id);
+        System.out.println("--------print subTaskIds arrays (if any)------------");
 
-
-        }*/
     }
 }
+
 
 
 

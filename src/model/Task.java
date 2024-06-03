@@ -23,6 +23,7 @@ public class Task {
     public TaskType getType() {
         return TaskType.TASK;
     }
+
     public String getNameTask() {
         return nameTask;
     }
@@ -55,6 +56,30 @@ public class Task {
         this.status = status;
     }
 
+    private String toString(Task task) {
+        return task.getTaskId() + "," + task.getType() + "," + task.getNameTask() + "," + task.getStatus() + "," + task.getDescriptionTask();
+    }
+
+    public static Task taskFromString(String value) {
+        final String[] result = value.split(",");
+        int id = Integer.parseInt(result[0]);
+        TaskType taskType = TaskType.valueOf(result[1].trim());
+        String name = result[3];
+        Status taskStatus = Status.valueOf(result[3].trim());
+        String taskDescription = result[4];
+
+        switch (taskType) {
+            case TASK:
+                return new Task(id, name, taskDescription, taskStatus);
+            case SUBTASK:
+                return new Subtask(id, name, taskDescription, taskStatus, Integer.parseInt(result[5]));
+            case EPIC:
+                return new Epic(id, name, taskDescription, taskStatus);
+        }
+        return null;
+
+    }
+
 
     @Override
     public String toString() {
@@ -81,9 +106,6 @@ public class Task {
         return taskId;
     }
 
-    public Integer getEpicId() {
-        return null;
-    }
 
     /* @Override
     public boolean equals(Object object) {

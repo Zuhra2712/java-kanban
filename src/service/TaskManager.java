@@ -44,5 +44,18 @@ public interface TaskManager {
     ArrayList<Subtask> getEpicSubtask(Epic epic);
 
 
+    default void deleteAllTasks() {
+
+    }
+
+    default void deleteAllSubtasks() {
+
+
+    }
+
+    default void deleteAllEpics() {
+
+    }
+
     void calculateStatus(int epicId);
 }
