@@ -29,11 +29,11 @@ public interface TaskManager {
 
     void deleteEpic(int id);
 
-    Task updateTask(Task task);
+    void updateTask(Task task);
 
-    Epic updateEpic(Epic epic);
+    void updateEpic(Epic epic);
 
-    Subtask updateSubtask(Subtask subtask);
+    void updateSubtask(Subtask subtask);
 
     Task get(int id);
 
@@ -42,6 +42,8 @@ public interface TaskManager {
     Subtask getSubtask(int id);
 
     ArrayList<Subtask> getEpicSubtask(Epic epic);
+
+
 
 
     void calculateStatus(int epicId);

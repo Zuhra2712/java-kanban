@@ -9,8 +9,10 @@ public class Subtask  extends Task {
     }
 
 
-    public Subtask(int taskId, String nameTask, String descriptionTask, Status status) {
+    public Subtask(int taskId, String nameTask, String descriptionTask, Status status, int epicId) {
         super(taskId, nameTask, descriptionTask, status);
+        this.epicId = epicId;
+
     }
     public Subtask(String nameTask, String descriptionTask, Status status){
 
@@ -30,12 +32,11 @@ public class Subtask  extends Task {
 
     @Override
     public String toString() {
-        return "Subtask{" +
-                "epicId=" + epicId +
-                ", taskId=" + taskId +
-                ", nameTask='" + nameTask + '\'' +
-                ", descriptionTask='" + descriptionTask + '\'' +
-                ", status=" + status +
-                '}';
+        return Subtask.this.getTaskId() + ","
+                + Subtask.this.getType() + ","
+                + Subtask.this.getNameTask() + ","
+                + Subtask.this.getStatus() + ","
+                + Subtask.this.getDescriptionTask() + ","
+                + Subtask.this.epicId;
     }
 }

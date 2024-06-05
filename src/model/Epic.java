@@ -12,6 +12,7 @@ public class Epic extends Task {
     }
 
     public Epic(int ID, String nameTask, String descriptionTask, Status status) {
+        this.setTaskId(ID);
         this.setNameTask(nameTask);
         this.setDescriptionTask(descriptionTask);
         this.setStatus(status);
@@ -30,6 +31,7 @@ public class Epic extends Task {
     }
 
     public ArrayList<Subtask> getSubtasks() {
+
         return new ArrayList<>(subtasks);
     }
 
@@ -47,5 +49,23 @@ public class Epic extends Task {
         this.subtasks = subtasks;
     }
 
+
+    public void removeAllSubtasks() {
+        subtasks.clear();
+    }
+
+    public TaskType getType() {
+        return TaskType.EPIC;
+    }
+
+    @Override
+    public String toString() {
+        return Epic.this.getTaskId() + ","
+                + Epic.this.getType() + ","
+                + Epic.this.getNameTask() + ","
+                + Epic.this.getStatus() + ","
+                + Epic.this.getDescriptionTask() + ","
+                + null;
+    }
 
 }
