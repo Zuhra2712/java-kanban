@@ -17,8 +17,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     protected final File file;
 
-    private final static String HEADER = "id,type,name,status,description,epic"; // Заголовок таблицы
-
+    private final static String HEADER = "id,type,name,status,description,startTime,duration,endTime,epic"; // Заголовок таблицы
 
     public FileBackedTaskManager() {
         this(Managers.getDefaultHistory());
@@ -192,24 +191,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Task createTask(Task task) {
+    public void createTask(Task task) {
         super.createTask(task);
         save();
-        return task;
     }
 
     @Override
-    public Epic createEpic(Epic epic) {
+    public void createEpic(Epic epic) {
         super.createEpic(epic);
         save();
-        return epic;
     }
 
     @Override
-    public Subtask createSubtask(Subtask subtask) {
+    public void createSubtask(Subtask subtask) {
         super.createSubtask(subtask);
         save();
-        return subtask;
     }
 
     @Override

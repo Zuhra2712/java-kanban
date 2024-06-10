@@ -1,7 +1,11 @@
 package service;
 
-public class Managers  {
+import java.io.File;
 
+public class Managers  {
+    public static FileBackedTaskManager getFileBackedTaskManager() {
+        return new FileBackedTaskManager(new File("resourses/taskT.csv"));
+    }
 
     public static TaskManager getDefaultTaskManager(){
 
@@ -13,6 +17,9 @@ public class Managers  {
     }
 
     public static FileBackedTaskManager getDefaultBackedTaskManager() {
+
         return new FileBackedTaskManager();
     }
+
+
 }

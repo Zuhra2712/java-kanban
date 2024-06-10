@@ -1,24 +1,73 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Task {
     protected int taskId;
     protected String nameTask;
     protected String descriptionTask;
     protected Status status;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
+    protected Duration duration;
 
-    public Task() {
+    protected LocalDateTime calculateEndTime() {
+        return startTime.plus(duration);
     }
 
-    public Task(String nameTask) {
+    // public Task() {
+    //}
+
+    // public Task(String nameTask) {
+    //    this.nameTask = nameTask;
+    // }
+
+    public Task(String nameTask, String descriptionTask, Status status, LocalDateTime startTime, Duration duration) {
+        this.taskId = 0;
         this.nameTask = nameTask;
+        this.descriptionTask = descriptionTask;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.endTime = calculateEndTime();
+        this.status = status;
     }
 
-    public Task(int taskId, String nameTask, String descriptionTask, Status status) {
+    public Task(int taskId, String nameTask, String descriptionTask, Status status, LocalDateTime startTime, Duration duration) {
         this.taskId = taskId;
         this.nameTask = nameTask;
         this.descriptionTask = descriptionTask;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.endTime = calculateEndTime();
         this.status = status;
     }
+
+    //  public Task(int id, String nameTask, String descriptionTask, Status status) {
+    //  }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+        endTime = startTime.plus(duration);
+
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plusMinutes(duration.toMinutes());
+    }
+
 
     public TaskType getType() {
         return TaskType.TASK;
@@ -65,14 +114,17 @@ public class Task {
         String name = result[2];
         Status taskStatus = Status.valueOf(result[3].trim());
         String taskDescription = result[4];
+        LocalDateTime taskstartTime = LocalDateTime.parse(result[5]);
+        Duration taskDuration = Duration.parse(result[6]);
+        LocalDateTime taskEndTime = LocalDateTime.parse(result[7]);
 
         switch (taskType) {
             case TASK:
-                return new Task(id, name, taskDescription, taskStatus);
+                return new Task(id, name, taskDescription, taskStatus, taskstartTime, taskDuration);
             case SUBTASK:
-                return new Subtask(id, name, taskDescription, taskStatus, Integer.parseInt(result[5]));
+                return new Subtask(id, name, taskDescription, taskStatus, taskstartTime, taskDuration, Integer.parseInt(result[8]));
             case EPIC:
-                return new Epic(id, name, taskDescription, taskStatus);
+                return new Epic(id, name, taskDescription, taskstartTime, taskDuration);
         }
         return null;
 
@@ -86,6 +138,9 @@ public class Task {
                 + Task.this.getNameTask() + ","
                 + Task.this.getStatus() + ","
                 + Task.this.getDescriptionTask() + ","
+                + Task.this.getStartTime() + ","
+                + Task.this.duration + ","
+                + Task.this.getEndTime()
                 + null;
 
     }
@@ -104,7 +159,11 @@ public class Task {
 
         Task task = (Task) object;
 
-        return taskId == task.taskId;
+        return this.nameTask.equals(task.nameTask)
+                && this.descriptionTask.equals(task.descriptionTask)
+                && this.status.equals(task.status)
+                && this.startTime.equals(task.startTime)
+                && this.duration.equals(task.duration);
     }
 
     @Override
