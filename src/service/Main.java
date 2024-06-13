@@ -31,19 +31,18 @@ public class Main {
                 LocalDateTime.parse("2021-05-03T13:54"), Duration.ofMinutes(100));
         Task task3 = new Task("task3", "taskDescription3", Status.NEW,
                 LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
-        Task task4 = new Task("task4", "taskDescription4", Status.NEW,
-                LocalDateTime.parse("2022-06-03T17:54"), Duration.ofMinutes(100));
+
 
         Subtask subtask1 = new Subtask("subtask1", "subtaskDescription1", Status.NEW,
                 LocalDateTime.parse("2020-06-03T13:54"), Duration.ofMinutes(100), 1);
         Subtask subtask2 = new Subtask("subtask2", "subtaskDescription2", Status.NEW,
-                LocalDateTime.parse("2020-05-03T13:56"), Duration.ofMinutes(100), 1);
+                LocalDateTime.parse("2020-05-03T13:56"), Duration.ofMinutes(100), 2);
         Subtask subtask3 = new Subtask("subtask3", "subtaskDescription3", Status.NEW,
-                LocalDateTime.parse("2020-06-03T20:00"), Duration.ofMinutes(100), 1);
+                LocalDateTime.parse("2020-06-03T20:00"), Duration.ofMinutes(100), 3);
 
-        Epic epic1 = new Epic("epic1", "epicDescription1");
-        Epic epic2 = new Epic("epic2", "epicDescription2");
-        Epic epic3 = new Epic("epic3", "taskDescription3");
+        Epic epic1 = new Epic(1, "epic1", "d1", LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
+        Epic epic2 = new Epic(2, "epic2", "d1", LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
+        Epic epic3 = new Epic(3, "epic3", "d1", LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
 
         taskManager.createEpic(epic1);
         taskManager.createEpic(epic2);
@@ -61,9 +60,9 @@ public class Main {
         taskManager.get(task2.getTaskId());
         taskManager.get(task3.getTaskId());
 
-        taskManager.getEpic(epic1.getTaskId());
-        taskManager.getEpic(epic2.getTaskId());
-        taskManager.getEpic(epic3.getTaskId());
+        //  taskManager.getEpic(epic1.getTaskId());
+        //  taskManager.getEpic(epic2.getTaskId());
+        //   taskManager.getEpic(epic3.getTaskId());
 
         taskManager.getSubtask(subtask1.getTaskId());
         taskManager.getSubtask(subtask2.getTaskId());
@@ -76,7 +75,6 @@ public class Main {
         printAllTasks(restoredManager);
         System.out.println("restored tasks printed");
 
-        restoredManager.createTask(task4);
         System.out.println("-----------------------");
 
         printAllTasks(restoredManager);

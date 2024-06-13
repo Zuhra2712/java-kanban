@@ -8,8 +8,8 @@ class EpicTest {
 
     @Test
     void name() {
-        Epic epic = new Epic(1, "переезд", "в новую квартиру", Status.NEW);
-        Epic epicExpected = new Epic(1, "переезд", "в новую квартиру", Status.DONE);
+        Epic epic = new Epic("epic1", "Переезд в квартиру");
+        Epic epicExpected = new Epic("epic1", "Переезд в квартиру");
         assertEqualsTask(epicExpected,epic,"Эпики должны быть равны");
     }
     private  static void assertEqualsTask(Task expected, Task actual, String message){

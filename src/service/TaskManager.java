@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
-    void createTask(Task task);
+    Task createTask(Task task);
 
 
-    void createEpic(Epic epic);
+    Task createEpic(Epic epic);
 
-    void createSubtask(Subtask subtask);
+    Task createSubtask(Subtask subtask);
 
     List<Task> getHistory();
 

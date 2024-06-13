@@ -14,7 +14,6 @@ import java.util.Map;
 import static model.Task.taskFromString;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-
     protected final File file;
 
     private final static String HEADER = "id,type,name,status,description,startTime,duration,endTime,epic"; // Заголовок таблицы
@@ -146,6 +145,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Не удалось прочитать файл");
+        } catch (NullPointerException e) {
+            System.out.println("Не могу найти ошибку о нулевом эпик");
         }
         return manager;
     }
@@ -191,21 +192,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void createTask(Task task) {
+    public Task createTask(Task task) {
         super.createTask(task);
         save();
+        return task;
     }
 
     @Override
-    public void createEpic(Epic epic) {
+    public Task createEpic(Epic epic) {
         super.createEpic(epic);
         save();
+        return null;
     }
 
     @Override
-    public void createSubtask(Subtask subtask) {
+    public Task createSubtask(Subtask subtask) {
         super.createSubtask(subtask);
         save();
+        return null;
     }
 
     @Override
@@ -244,9 +248,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 }
-
-
-
-
-
 

@@ -93,9 +93,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createTask(Task task) {
+    public Task createTask(Task task) {
         if (Objects.isNull(task))
-            return;
+            return task;
         checkValidation(task);
         if (task.getTaskId() == 0) {
             task.setTaskId(nextId);
@@ -105,12 +105,13 @@ public class InMemoryTaskManager implements TaskManager {
         prioritizedTasks.add(task);
 
 
+        return task;
     }
 
     @Override
-    public void createEpic(Epic epic) {
+    public Task createEpic(Epic epic) {
         if (Objects.isNull(epic))
-            return;
+            return null;
 
         if (epic.getTaskId() == 0) {
             epic.setTaskId(nextId);
@@ -118,12 +119,13 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         epics.put(epic.getTaskId(), epic);
+        return null;
     }
 
     @Override
-    public void createSubtask(Subtask subtask) {
+    public Task createSubtask(Subtask subtask) {
         if (Objects.isNull(subtask))
-            return;
+            return null;
         checkValidation(subtask);
         if (subtask.getTaskId() == 0) {
             subtask.setTaskId(nextId);
@@ -138,6 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         updateEpic(epicId);
         prioritizedTasks.add(subtask);
+        return null;
     }
 
     @Override

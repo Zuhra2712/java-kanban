@@ -12,6 +12,10 @@ public class Task {
     protected LocalDateTime endTime;
     protected Duration duration;
 
+    public Task() {
+
+    }
+
     protected LocalDateTime calculateEndTime() {
         return startTime.plus(duration);
     }
@@ -116,7 +120,7 @@ public class Task {
         String taskDescription = result[4];
         LocalDateTime taskstartTime = LocalDateTime.parse(result[5]);
         Duration taskDuration = Duration.parse(result[6]);
-        LocalDateTime taskEndTime = LocalDateTime.parse(result[7]);
+        //  LocalDateTime taskEndTime = LocalDateTime.parse(result[7]);
 
         switch (taskType) {
             case TASK:
@@ -140,8 +144,7 @@ public class Task {
                 + Task.this.getDescriptionTask() + ","
                 + Task.this.getStartTime() + ","
                 + Task.this.duration + ","
-                + Task.this.getEndTime()
-                + null;
+                + Task.this.getEndTime();
 
     }
        /* return "Task{" +

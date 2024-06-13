@@ -7,6 +7,8 @@ import model.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +17,8 @@ class inMemoryHistoryManagerTest {
     @Test
     void add() {
         InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-        Task task1 = new Task(1, "Задача 1", "Описание задачи1", Status.NEW);
+        Task task1 = new Task(2, "task1", "d1", Status.NEW,
+                LocalDateTime.parse("2021-05-03T13:54"), Duration.ofMinutes(100));
         inMemoryHistoryManager.addTaskToHistory(task1);
         final List<Task> history = inMemoryHistoryManager.gethistory();
         assertNotNull(history, "История пустая");
@@ -25,7 +28,8 @@ class inMemoryHistoryManagerTest {
     @Test
     void remove() {
         InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-        Task task1 = new Task(1, "Задача1", "Описание1", Status.NEW);
+        Task task1 = new Task(2, "task1", "d1", Status.NEW,
+                LocalDateTime.parse("2021-05-03T13:54"), Duration.ofMinutes(100));
         inMemoryHistoryManager.addTaskToHistory(task1);
         List<Task> history = inMemoryHistoryManager.gethistory();
         history.remove(task1);
@@ -41,10 +45,13 @@ class inMemoryHistoryManagerTest {
     public void shouldReturnHistory() {
         HistoryManager historyManager = new InMemoryHistoryManager();
         TaskManager taskManager = new InMemoryTaskManager(historyManager);
-        Task task1 = taskManager.createTask(new Task("Первый таск"));
-        Task task2 = taskManager.createTask(new Task("Второй  таск"));
-        Task epic1 = taskManager.createEpic(new Epic("Первый эпик"));
-        Task sub = taskManager.createSubtask(new Subtask("Первый сабтаск", 3));
+        Task task1 = taskManager.createTask(new Task(1, "task", "переезд", Status.NEW,
+                LocalDateTime.parse("2021-05-03T13:54"), Duration.ofMinutes(100)));
+        Task task2 = taskManager.createTask(new Task(2, "task2", "переезд", Status.NEW,
+                LocalDateTime.parse("2021-05-03T13:54"), Duration.ofMinutes(100)));
+        Task epic1 = taskManager.createEpic(new Epic("epic1", "d1"));
+        Task sub = taskManager.createSubtask(new Subtask("subtask1", "subtaskDescription1", Status.NEW,
+                LocalDateTime.parse("2020-06-03T13:54"), Duration.ofMinutes(100), 1));
 
         taskManager.getEpic(epic1.getTaskId());
         List<Task> history = historyManager.gethistory();
@@ -73,9 +80,12 @@ class inMemoryHistoryManagerTest {
     public void shouldAddTasksToHistory() {
         HistoryManager historyManager = new InMemoryHistoryManager();
         TaskManager taskManager = new InMemoryTaskManager(historyManager);
-        Task task1 = taskManager.createTask(new Task("Первый таск"));
-        Task task2 = taskManager.createTask(new Task("Второй таск"));
-        Task task3 = taskManager.createTask(new Task("Третий таск"));
+        Task task1 = taskManager.createTask(new Task("task1", "taskDescription1", Status.NEW,
+                LocalDateTime.parse("2021-06-03T13:54"), Duration.ofMinutes(100)));
+        Task task2 = taskManager.createTask(new Task("task2", "taskDescription2", Status.NEW,
+                LocalDateTime.parse("2021-05-03T13:54"), Duration.ofMinutes(100)));
+        Task task3 = taskManager.createTask(new Task("task3", "taskDescription3", Status.NEW,
+                LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100)));
 
         historyManager.addTaskToHistory(task1);
         historyManager.addTaskToHistory(task2);
