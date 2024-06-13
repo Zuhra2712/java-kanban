@@ -125,7 +125,8 @@ public class Task {
             System.out.println("Отсутвует стартовое время");
         }
         return null;
-    }// или тут надо было с Optional?
+    }
+    // или тут надо было с Optional?
 
 
     @Override
