@@ -16,8 +16,6 @@ import static model.Task.taskFromString;
 public class FileBackedTaskManager extends InMemoryTaskManager {
     protected final File file;
 
-    private final static String HEADER = "id,type,name,status,description,startTime,duration,endTime,epic"; // Заголовок таблицы
-
     public FileBackedTaskManager() {
         this(Managers.getDefaultHistory());
     }
@@ -69,6 +67,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
         try (final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
+            // Заголовок таблицы
+            String HEADER = "id,type,name,status,description,startTime,duration,endTime,epic";
             bufferedWriter.write(HEADER);
             bufferedWriter.newLine();
             for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
