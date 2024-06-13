@@ -1,10 +1,10 @@
 package service;
 
+import exceptions.TaskValidationException;
 import model.Epic;
 import model.Status;
 import model.Subtask;
 import model.Task;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.DataValidationException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -40,8 +40,8 @@ public class InMemoryTaskManager implements TaskManager {
         List<Integer> subtaskIds = epics.get(epicId).getSubtasksId();//берем список подзадач эпика
         if (subtaskIds.isEmpty()) { // если список пустой устанавливаем нулевые значения для эпика
             epics.get(epicId).setDuration(Duration.ZERO);
-            epics.get(epicId).setStartTime(LocalDateTime.now());
-            epics.get(epicId).setEndTime(LocalDateTime.now());
+            epics.get(epicId).setStartTime(null);
+            epics.get(epicId).setEndTime(null);
             return;
         }
         LocalDateTime epicStartTime = LocalDateTime.now();
@@ -55,17 +55,24 @@ public class InMemoryTaskManager implements TaskManager {
                 if (epicStartTime == LocalDateTime.now() || subtaskStartTime.isBefore(epicStartTime)) {
                     epicStartTime = subtaskStartTime;
                 }
+                epicDuration = epicDuration.plus(subTasks.get(subtaskId).getDuration());
             }
             if (subtaskEndTime != null) {
                 if (epicEndTime == LocalDateTime.now() || subtaskEndTime.isAfter(epicEndTime)) {
                     epicEndTime = subtaskEndTime;
                 }
             }
-            epicDuration = epicDuration.plus(subTasks.get(subtaskId).getDuration());
         }
-        epics.get(epicId).setStartTime(epicStartTime);
-        epics.get(epicId).setEndTime(epicEndTime);
-        epics.get(epicId).setDuration(epicDuration);
+        if (epicStartTime != LocalDateTime.now()) {
+            epics.get(epicId).setStartTime(epicStartTime);
+            epics.get(epicId).setEndTime(epicEndTime);
+            epics.get(epicId).setDuration(epicDuration);
+        } else {
+            epics.get(epicId).setStartTime(null);
+            epics.get(epicId).setEndTime(null);
+            epics.get(epicId).setDuration(null);
+
+        }
     }
 
     public void checkValidation(Task newTask) {
@@ -77,11 +84,11 @@ public class InMemoryTaskManager implements TaskManager {
             if (Objects.equals(newTask.getTaskId(), existTask.getTaskId())) {
                 continue;
             }
-            if ((!newTask.getEndTime().isAfter(existTask.getStartTime())) ||
-                    (!newTask.getStartTime().isBefore(existTask.getEndTime()))) {
+            if ((newTask.getEndTime().isBefore(existTask.getStartTime())) ||
+                    (newTask.getStartTime().isAfter(existTask.getEndTime()))) {
                 continue;
             }
-            throw new DataValidationException("Время выполнения задачи пересекается со временем уже существующей " +
+            throw new TaskValidationException("Время выполнения задачи пересекается со временем уже существующей " +
                     "задачи. Выберите другую дату.");
         }
     }
@@ -119,7 +126,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         epics.put(epic.getTaskId(), epic);
-        return null;
+        return epic;
     }
 
     @Override
@@ -183,8 +190,7 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask removeSubTask = subTasks.get(id);
         int epic = removeSubTask.getEpicId();
         Epic epicSaved = epics.get(epic);
-        epicSaved.getSubtasksId().remove(removeSubTask);
-        calculateStatus(epic);
+        epicSaved.getSubtasksId().remove(id);
         prioritizedTasks.remove(removeSubTask);
 
     }
@@ -216,7 +222,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    protected void updateEpic(int epicId) {
+    private void updateEpic(int epicId) {
         updateEpicTime(epicId);
         updateEpicStatus(epicId);
 
@@ -224,10 +230,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic) {
-        checkValidation(epic);
-        epics.put(epic.getTaskId(), epic);
-        updateEpic(epic.getTaskId());
-
+        Epic saved = epics.get(epic.getTaskId());
+        if (saved == null) {
+            return;
+        }
+        saved.setNameTask(epic.getNameTask());
+        epics.put(epic.getTaskId(), saved);
     }
 
     @Override
@@ -271,10 +279,6 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(prioritizedTasks);
     }
 
-    @Override
-    public void calculateStatus(int epicId) {
-
-    }
 
 
     public void deleteAllTasks() {

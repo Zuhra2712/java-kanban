@@ -46,5 +46,4 @@ public interface TaskManager {
     List<Task> getPrioritizedTasks();
 
 
-    void calculateStatus(int epicId);
 }
