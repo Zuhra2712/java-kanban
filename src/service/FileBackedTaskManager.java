@@ -68,8 +68,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         try (final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             // Заголовок таблицы
-            String HEADER = "id,type,name,status,description,startTime,duration,endTime,epic";
-            bufferedWriter.write(HEADER);
+            // String HEADER = "id,type,name,status,description,startTime,duration,endTime,epic";
+            //   bufferedWriter.write(HEADER);
             bufferedWriter.newLine();
             for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
                 bufferedWriter.write(entry.getValue().toString());
