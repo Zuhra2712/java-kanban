@@ -112,7 +112,7 @@ public class Task {
             case TASK:
                 return new Task(id, name, taskDescription, taskStatus, taskstartTime, taskDuration);
             case SUBTASK:
-                return new Subtask(id, name, taskDescription, taskStatus, taskstartTime, taskDuration, Integer.parseInt(result[8]));
+                return new Subtask(id, name, taskDescription, taskStatus, taskstartTime, taskDuration, Integer.parseInt(result[7]));
             case EPIC:
                 return new Epic(id, name, taskDescription);
         }
