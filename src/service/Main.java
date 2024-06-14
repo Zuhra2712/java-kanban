@@ -40,9 +40,9 @@ public class Main {
         Subtask subtask3 = new Subtask("subtask3", "subtaskDescription3", Status.NEW,
                 LocalDateTime.parse("2020-06-03T20:00"), Duration.ofMinutes(100), 3);
 
-        Epic epic1 = new Epic(1, "epic1", "d1", Status.NEW, LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
-        Epic epic2 = new Epic(2, "epic2", "d1", Status.NEW, LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
-        Epic epic3 = new Epic(3, "epic3", "d1", Status.NEW, LocalDateTime.parse("2021-06-03T17:54"), Duration.ofMinutes(100));
+        Epic epic1 = new Epic(1, "epic1", "d1");
+        Epic epic2 = new Epic(2, "epic2", "d2");
+        Epic epic3 = new Epic(3, "epic3", "d3");
 
         taskManager.createEpic(epic1);
         taskManager.createEpic(epic2);

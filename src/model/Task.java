@@ -21,7 +21,6 @@ public class Task {
         this.descriptionTask = descriptionTask;
         this.startTime = startTime;
         this.duration = duration;
-        this.calculateEndTime();
         this.status = status;
     }
 
@@ -31,7 +30,6 @@ public class Task {
         this.descriptionTask = descriptionTask;
         this.startTime = startTime;
         this.duration = duration;
-        this.calculateEndTime();
         this.status = status;
     }
 
@@ -41,12 +39,16 @@ public class Task {
     }
 
     public LocalDateTime getEndTime() {
-        return startTime.plusMinutes(duration.toMinutes());
+        if (startTime != null) {
+            return startTime.plus(duration);
+        } else {
+            System.out.println("Отсутвует стартовое время");
+        }
+        return null;
     }
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-        calculateEndTime();
 
     }
 
@@ -112,20 +114,13 @@ public class Task {
             case SUBTASK:
                 return new Subtask(id, name, taskDescription, taskStatus, taskstartTime, taskDuration, Integer.parseInt(result[8]));
             case EPIC:
-                return new Epic(id, name, taskDescription, taskStatus, taskstartTime, taskDuration);
+                return new Epic(id, name, taskDescription);
         }
         return null;
 
     }
 
-    protected LocalDateTime calculateEndTime() {
-        if (startTime != null) {
-            return startTime.plus(duration);
-        } else {
-            System.out.println("Отсутвует стартовое время");
-        }
-        return null;
-    }
+
     // или тут надо было с Optional?
 
 
@@ -137,8 +132,7 @@ public class Task {
                 + Task.this.getStatus() + ","
                 + Task.this.getDescriptionTask() + ","
                 + Task.this.getStartTime() + ","
-                + Task.this.duration + ","
-                + Task.this.calculateEndTime();
+                + Task.this.duration;
 
     }
 
