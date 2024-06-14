@@ -41,7 +41,6 @@ public class Subtask extends Task {
                 + Subtask.this.getDescriptionTask() + ","
                 + Subtask.this.startTime + ","
                 + Subtask.this.duration + ","
-                + Subtask.this.calculateEndTime() + ","
                 + Subtask.this.epicId;
     }
 }
