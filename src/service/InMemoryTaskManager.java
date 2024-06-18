@@ -39,7 +39,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateEpicTime(int epicId) {
         List<Integer> subtaskIds = epics.get(epicId).getSubtasksId();//берем список подзадач эпика
         if (subtaskIds.isEmpty()) { // если список пустой устанавливаем нулевые значения для эпика
-            epics.get(epicId).setDuration(Duration.ZERO);
+            epics.get(epicId).setDuration(null);
             epics.get(epicId).setStartTime(null);
             epics.get(epicId).setEndTime(null);
             return;
