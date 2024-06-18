@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final CustomLinkedList history = new CustomLinkedList();
@@ -17,6 +18,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
+    public List<Integer> getIdHistory() {
+        return gethistory()
+                .stream()
+                .map(Task::getTaskId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void remove(int id) {
         history.removeNode(id);
     }
@@ -25,6 +34,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> gethistory() {
         return history.getTasks();
     }
+
 
     private static class CustomLinkedList {
         public static class Node<T> {

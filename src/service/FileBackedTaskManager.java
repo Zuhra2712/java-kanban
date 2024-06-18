@@ -14,11 +14,7 @@ import java.util.Map;
 import static model.Task.taskFromString;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-
     protected final File file;
-
-    private final static String HEADER = "id,type,name,status,description,epic"; // Заголовок таблицы
-
 
     public FileBackedTaskManager() {
         this(Managers.getDefaultHistory());
@@ -71,7 +67,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
 
         try (final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
-            bufferedWriter.write(HEADER);
+            // Заголовок таблицы
+            // String HEADER = "id,type,name,status,description,startTime,duration,endTime,epic";
+            //   bufferedWriter.write(HEADER);
             bufferedWriter.newLine();
             for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
                 bufferedWriter.write(entry.getValue().toString());
@@ -147,6 +145,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Не удалось прочитать файл");
+        } catch (NullPointerException e) {
+            System.out.println("Не могу найти ошибку о нулевом эпик");
         }
         return manager;
     }
@@ -199,17 +199,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Epic createEpic(Epic epic) {
+    public Task createEpic(Epic epic) {
         super.createEpic(epic);
         save();
-        return epic;
+        return null;
     }
 
     @Override
-    public Subtask createSubtask(Subtask subtask) {
+    public Task createSubtask(Subtask subtask) {
         super.createSubtask(subtask);
         save();
-        return subtask;
+        return null;
     }
 
     @Override
@@ -248,9 +248,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 }
-
-
-
-
-
 

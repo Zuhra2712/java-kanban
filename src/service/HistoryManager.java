@@ -14,6 +14,8 @@ public interface HistoryManager {
 
      List<Task> gethistory();
 
+     List<Integer> getIdHistory();
+
 
 
 }

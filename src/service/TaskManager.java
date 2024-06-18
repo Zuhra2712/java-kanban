@@ -11,9 +11,9 @@ public interface TaskManager {
     Task createTask(Task task);
 
 
-    Epic createEpic(Epic epic);
+    Task createEpic(Epic epic);
 
-    Subtask createSubtask(Subtask subtask);
+    Task createSubtask(Subtask subtask);
 
     List<Task> getHistory();
 
@@ -43,8 +43,7 @@ public interface TaskManager {
 
     ArrayList<Subtask> getEpicSubtask(Epic epic);
 
+    List<Task> getPrioritizedTasks();
 
 
-
-    void calculateStatus(int epicId);
 }

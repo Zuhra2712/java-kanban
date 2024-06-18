@@ -1,24 +1,65 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Task {
     protected int taskId;
     protected String nameTask;
     protected String descriptionTask;
     protected Status status;
+    protected LocalDateTime startTime;
+    protected Duration duration;
 
     public Task() {
+
     }
 
-    public Task(String nameTask) {
+    public Task(String nameTask, String descriptionTask, Status status, LocalDateTime startTime, Duration duration) {
+        this.taskId = 0;
         this.nameTask = nameTask;
+        this.descriptionTask = descriptionTask;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.status = status;
     }
 
-    public Task(int taskId, String nameTask, String descriptionTask, Status status) {
+    public Task(int taskId, String nameTask, String descriptionTask, Status status, LocalDateTime startTime, Duration duration) {
         this.taskId = taskId;
         this.nameTask = nameTask;
         this.descriptionTask = descriptionTask;
+        this.startTime = startTime;
+        this.duration = duration;
         this.status = status;
     }
+
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null) {
+            return startTime.plus(duration);
+        } else {
+            System.out.println("Отсутвует стартовое время");
+        }
+        return null;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
 
     public TaskType getType() {
         return TaskType.TASK;
@@ -57,7 +98,6 @@ public class Task {
     }
 
 
-
     public static Task taskFromString(String value) {
         final String[] result = value.split(",");
         int id = Integer.parseInt(result[0]);
@@ -65,18 +105,23 @@ public class Task {
         String name = result[2];
         Status taskStatus = Status.valueOf(result[3].trim());
         String taskDescription = result[4];
+        LocalDateTime taskstartTime = LocalDateTime.parse(result[5]);
+        Duration taskDuration = Duration.parse(result[6]);
 
         switch (taskType) {
             case TASK:
-                return new Task(id, name, taskDescription, taskStatus);
+                return new Task(id, name, taskDescription, taskStatus, taskstartTime, taskDuration);
             case SUBTASK:
-                return new Subtask(id, name, taskDescription, taskStatus, Integer.parseInt(result[5]));
+                return new Subtask(id, name, taskDescription, taskStatus, taskstartTime, taskDuration, Integer.parseInt(result[7]));
             case EPIC:
-                return new Epic(id, name, taskDescription, taskStatus);
+                return new Epic(id, name, taskDescription);
         }
         return null;
 
     }
+
+
+    // или тут надо было с Optional?
 
 
     @Override
@@ -86,16 +131,10 @@ public class Task {
                 + Task.this.getNameTask() + ","
                 + Task.this.getStatus() + ","
                 + Task.this.getDescriptionTask() + ","
-                + null;
+                + Task.this.getStartTime() + ","
+                + Task.this.duration;
 
     }
-       /* return "Task{" +
-                "ID=" + taskId +
-                ", nameTask='" + nameTask + '\'' +
-                ", descriptionTask='" + descriptionTask + '\'' +
-                ", status=" + status +
-                '}';
-    }*/
 
     @Override
     public boolean equals(Object object) {
@@ -104,36 +143,17 @@ public class Task {
 
         Task task = (Task) object;
 
-        return taskId == task.taskId;
+        return this.nameTask.equals(task.nameTask)
+                && this.descriptionTask.equals(task.descriptionTask)
+                && this.status.equals(task.status)
+                && this.startTime.equals(task.startTime)
+                && this.duration.equals(task.duration);
     }
 
     @Override
     public int hashCode() {
         return taskId;
     }
-
-
-    /* @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Task task = (Task) object;
-        return taskId == task.taskId && Objects.equals(nameTask, task.nameTask) && Objects.equals(descriptionTask, task.descriptionTask) && status == task.status;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        if (nameTask != null) {
-            hash = hash + nameTask.hashCode();
-        }
-        hash = hash * 31;
-        if (descriptionTask != null) {
-            hash = hash + descriptionTask.hashCode();
-        }
-        hash = hash * 31;
-        return hash;
-    }*/
 
 
 }

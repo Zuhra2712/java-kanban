@@ -1,62 +1,60 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
 
-    private ArrayList<Subtask> subtasks = new ArrayList<>();
+    private final List<Integer> subtasks;
+    private LocalDateTime endTime;
 
-    public Epic(String nameTask, ArrayList<Subtask> subtasks) {
-        super(nameTask);
-        this.subtasks = subtasks;
+    public Epic(int id, String name, String description) {
+        super.taskId = id;
+        super.nameTask = name;
+        super.status = Status.NEW;
+        super.descriptionTask = description;
+        super.startTime = getStartTime();
+        subtasks = new ArrayList<>();
+
+
     }
 
-    public Epic(int ID, String nameTask, String descriptionTask, Status status) {
-        this.setTaskId(ID);
-        this.setNameTask(nameTask);
-        this.setDescriptionTask(descriptionTask);
-        this.setStatus(status);
+
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
-    public Epic(String name) {
-        this.setNameTask(name);
+    public void setEndTime(LocalDateTime localDateTime) {
+        this.endTime = localDateTime;
     }
 
-    public Epic(int ID, String nameTask, String descriptionTask, Status status, ArrayList<Subtask> subtasks) {
-        super(ID, nameTask, descriptionTask, status);
-        this.subtasks = subtasks;
-    }
-
-    public Epic(String nameTask, String descriptionTask, Status status, ArrayList<Subtask> subtasks) {
-    }
-
-    public ArrayList<Subtask> getSubtasks() {
-
-        return new ArrayList<>(subtasks);
+    public void addSubtask(int id) {
+        subtasks.add(id);
     }
 
     public void addSubTask(Subtask subtask) {
-        subtasks.add(subtask);
+        subtasks.add(subtask.getTaskId());
 
     }
 
-    public void removeSubTask(Subtask subtask) {
-        subtasks.remove(subtask);
+    public List<Integer> getSubtasksId() {
+        return subtasks;
     }
 
-
-    public void setSubtasks(ArrayList<Subtask> subtasks) {
-        this.subtasks = subtasks;
+    public void removeSubtask(Integer id) {
+        subtasks.remove(id);
     }
-
 
     public void removeAllSubtasks() {
         subtasks.clear();
     }
 
+    @Override
     public TaskType getType() {
         return TaskType.EPIC;
     }
+
 
     @Override
     public String toString() {
@@ -65,7 +63,10 @@ public class Epic extends Task {
                 + Epic.this.getNameTask() + ","
                 + Epic.this.getStatus() + ","
                 + Epic.this.getDescriptionTask() + ","
-                + null;
+                + Epic.this.startTime + ","
+                + Epic.this.duration;
+
     }
+
 
 }
