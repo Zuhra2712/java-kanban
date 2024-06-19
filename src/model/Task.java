@@ -2,8 +2,9 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Map;
 
-public class Task {
+public class Task implements Map.Entry<Integer, Task> {
     protected int taskId;
     protected String nameTask;
     protected String descriptionTask;
@@ -134,6 +135,21 @@ public class Task {
                 + Task.this.getStartTime() + ","
                 + Task.this.duration;
 
+    }
+
+    @Override
+    public Integer getKey() {
+        return 0;
+    }
+
+    @Override
+    public Task getValue() {
+        return null;
+    }
+
+    @Override
+    public Task setValue(Task value) {
+        return null;
     }
 
     @Override

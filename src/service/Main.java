@@ -5,18 +5,53 @@ import model.Status;
 import model.Subtask;
 import model.Task;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static service.ClassForTesting.printAllTasks;
-import static service.FileBackedTaskManager.loadFromFile;
-
 public class Main {
+    public static void main(String[] args) {
+        TaskManager taskManager = Managers.getDefaultTaskManager();
 
-    public static final String PATH = "resources/task.csv";
+        int taskId = taskManager.addNewTask(new Task(1, "Task1", "D1", Status.NEW,
+                LocalDateTime.parse("2020-06-03T13:54"), Duration.ofMinutes(100)));
+        int taskId2 = taskManager.addNewTask(new Task(2, "Task2", "D1", Status.NEW,
+                LocalDateTime.parse("2020-06-03T13:57"), Duration.ofMinutes(10)));
+
+        Epic epic = new Epic(1, "Epic1", "описание эпик 1");
+        int epicId = taskManager.addNewEpic(epic);
+
+        Subtask subtask1 = new Subtask("Сабтаск1", "Сабтаск описание1", Status.NEW,
+                LocalDateTime.parse("2020-06-03T12:54"), Duration.ofMinutes(100), 1);
+        taskManager.addNewSubtask(subtask1);
+
+        taskManager.addNewSubtask(new Subtask("Сабтаск", "Сабтаск описание1", Status.NEW,
+                LocalDateTime.parse("2020-06-03T12:55"), Duration.ofMinutes(100), 2));
+        taskManager.updateEpic(epic);
+
+        Epic epic2 = new Epic(1, "Epic2", "описание эпик 2");
+        int epicId2 = taskManager.addNewEpic(epic2);
+
+        Subtask subtask2 = new Subtask("Сабтаск2", "Сабтаск описание1", Status.NEW,
+                LocalDateTime.parse("2020-06-03T12:54"), Duration.ofMinutes(100), 2);
+        int subtaskId2 = taskManager.addNewSubtask(subtask2);
+        Task taskUseless = taskManager.get(taskId); // task@1 in history
+        Task epicUseless = taskManager.getEpic(epicId2); // Epic{subTasks=[SubTask@7], status=NEW} in history
+        Task subtaskUseless = taskManager.getSubtask(subtaskId2); // SubTask@7 in history
+        taskManager.updateEpic(epic2);
+
+
+        taskManager.deleteTask(taskId);
+    }
+
+
+}
+
+
+
+
+
+
+    /*public static final String PATH = "resources/task.csv";
 
 
     public static void main(String[] args) {

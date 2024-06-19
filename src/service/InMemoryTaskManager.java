@@ -279,6 +279,20 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(prioritizedTasks);
     }
 
+    @Override
+    public int addNewEpic(Epic epic) {
+        return 0;
+    }
+
+    @Override
+    public int addNewSubtask(Subtask subtask) {
+        return 0;
+    }
+
+    @Override
+    public int addNewTask(Task task) {
+        return 0;
+    }
 
 
     public void deleteAllTasks() {
