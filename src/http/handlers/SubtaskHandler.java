@@ -16,6 +16,7 @@ public class SubtaskHandler extends BaseHttpHandler {
     }
 
     private void handleGet(HttpExchange httpExchange, String[] path) throws IOException {
+        String response;
         if (path.length == 2) {
             response = gson.toJson(taskManager.getAllSubtask());
             sendText(httpExchange, response, 200);
@@ -27,10 +28,10 @@ public class SubtaskHandler extends BaseHttpHandler {
                     response = gson.toJson(subtask);
                     sendText(httpExchange, response, 200);
                 } else {
-                    sendNotFound(httpExchange);
+                    sendBadReguest(httpExchange);
                 }
             } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
-                sendNotFound(httpExchange);
+                sendBadReguest(httpExchange);
             }
         }
     }
@@ -38,7 +39,7 @@ public class SubtaskHandler extends BaseHttpHandler {
     private void handlePost(HttpExchange httpExchange) throws IOException {
         String bodyRequest = readText(httpExchange);
         if (bodyRequest.isEmpty()) {
-            sendNotFound(httpExchange);
+            sendBadReguest(httpExchange);
             return;
         }
         try {
@@ -53,36 +54,26 @@ public class SubtaskHandler extends BaseHttpHandler {
         } catch (ManagerSaveException v) {
             sendHasInteractions(httpExchange);
         } catch (JsonSyntaxException e) {
-            sendNotFound(httpExchange);
+            sendBadReguest(httpExchange);
         }
     }
 
     private void handleDelete(HttpExchange httpExchange, String[] path) throws IOException {
         if (path.length == 2) {
-            sendNotFound(httpExchange);
+            sendBadReguest(httpExchange);
         } else {
             try {
                 int id = Integer.parseInt(path[2]);
                 taskManager.deleteSubtask(id);
                 sendText(httpExchange, "success", 200);
             } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
-                sendNotFound(httpExchange);
+                sendBadReguest(httpExchange);
             }
         }
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String method = httpExchange.getRequestMethod();
-        String[] path = httpExchange.getRequestURI().getPath().split("/");
-
-
-        switch (method) {
-            case "GET" -> handleGet(httpExchange, path);
-            case "POST" -> handlePost(httpExchange);
-            case "DELETE" -> handleDelete(httpExchange, path);
-            default -> sendNotFound(httpExchange);
-        }
+        super.handle(httpExchange);
     }
-
 }

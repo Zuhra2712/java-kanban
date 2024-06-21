@@ -13,54 +13,48 @@ public class EpicHandler extends BaseHttpHandler {
     }
 
     private void handleGet(HttpExchange httpExchange, String[] path) throws IOException {
-        if (path.length == 2) {
-            response = gson.toJson(taskManager.getAllEpic());
-            sendText(httpExchange, response, 200);
-        } else if (path.length == 3) {
-            try {
-                int id = Integer.parseInt(path[2]);
-                Epic epic = taskManager.getEpic(id);
-                if (epic != null) {
-                    response = gson.toJson(epic);
-                    sendText(httpExchange, response, 200);
-                } else {
-                    sendNotFound(httpExchange);
+        String response;
+        switch (path.length) {
+            case (2):
+                response = gson.toJson(taskManager.getAllEpic());
+                sendText(httpExchange, response, 200);
+                break;
+            case (3):
+            case (4):
+                if (path[3].equals("subtasks")) {
+                    try {
+                        int id = Integer.parseInt(path[2]);
+                        Epic epic = taskManager.getEpic(id);
+                        if (epic != null) {
+                            response = gson.toJson(epic);
+                            sendText(httpExchange, response, 200);
+                        } else {
+                            sendBadReguest(httpExchange);
+                        }
+                    } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
+                        sendBadReguest(httpExchange);
+                    }
                 }
-            } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
-                sendNotFound(httpExchange);
-            }
-        } else if (path.length == 4 && path[3].equals("subtasks")) {
-            try {
-                int id = Integer.parseInt(path[2]);
-                Epic epic = taskManager.getEpic(id);
-                if (epic != null) {
-                    response = gson.toJson(epic);
-                    sendText(httpExchange, response, 200);
-                } else {
-                    sendNotFound(httpExchange);
-                }
-            } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
-                sendNotFound(httpExchange);
-            }
+                break;
         }
     }
 
     private void handlePost(HttpExchange httpExchange) throws IOException {
         String bodyRequest = readText(httpExchange);
         if (bodyRequest.isEmpty()) {
-            sendNotFound(httpExchange);
+            sendBadReguest(httpExchange);
             return;
         }
         try {
             Epic epic = gson.fromJson(bodyRequest, Epic.class);
             if (taskManager.getEpic(epic.getTaskId()) != null) {
-                sendNotFound(httpExchange);
+                sendBadReguest(httpExchange);
             } else {
                 int epicId = taskManager.addNewEpic(epic);
                 sendText(httpExchange, Integer.toString(epicId), 201);
             }
         } catch (JsonSyntaxException e) {
-            sendNotFound(httpExchange);
+            sendBadReguest(httpExchange);
         }
     }
 
@@ -70,23 +64,13 @@ public class EpicHandler extends BaseHttpHandler {
             taskManager.deleteEpic(id);
             sendText(httpExchange, "success", 200);
         } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
-            sendNotFound(httpExchange);
+            sendBadReguest(httpExchange);
         }
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String method = httpExchange.getRequestMethod();
-        String[] path = httpExchange.getRequestURI().getPath().split("/");
-
-
-        switch (method) {
-            case "GET" -> handleGet(httpExchange, path);
-            case "POST" -> handlePost(httpExchange);
-            case "DELETE" -> handleDelete(httpExchange, path);
-            default -> sendNotFound(httpExchange);
-        }
+        super.handle(httpExchange);
     }
-
 }
 

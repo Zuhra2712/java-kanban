@@ -7,14 +7,12 @@ import service.Managers;
 import service.TaskManager;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class BaseHttpHandler implements HttpHandler {
-    protected String response;
     protected Gson gson = Managers.getGson();
     protected TaskManager taskManager;
-    protected static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+
 
     public BaseHttpHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
@@ -27,8 +25,12 @@ public class BaseHttpHandler implements HttpHandler {
         httpExchange.close();
     }
 
-    protected void sendNotFound(HttpExchange httpExchange) throws IOException {
+    protected void sendBadReguest(HttpExchange httpExchange) throws IOException {
         sendText(httpExchange, "Not Found", 404);
+    }
+
+    protected void sendNotAllowed(HttpExchange httpExchange) throws IOException {
+        sendText(httpExchange, "Not Found", 405);
     }
 
     protected void sendHasInteractions(HttpExchange httpExchange) throws IOException {
@@ -36,10 +38,20 @@ public class BaseHttpHandler implements HttpHandler {
     }
 
     protected String readText(HttpExchange httpExchange) throws IOException {
-        return new String(httpExchange.getRequestBody().readAllBytes(), DEFAULT_CHARSET);
+        return new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
+
+    }
+
+    private void handleDelete(HttpExchange httpExchange, String[] path) {
+    }
+
+    private void handlePost(HttpExchange httpExchange) {
+    }
+
+    private void handleGet(HttpExchange httpExchange, String[] path) {
     }
 }

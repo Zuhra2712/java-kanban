@@ -12,6 +12,7 @@ public class HistoryHandler extends BaseHttpHandler {
     }
 
     private void handleGet(HttpExchange httpExchange, String[] path) throws IOException {
+        String response;
         response = gson.toJson(taskManager.getHistory());
         sendText(httpExchange, response, 200);
     }
@@ -24,7 +25,7 @@ public class HistoryHandler extends BaseHttpHandler {
 
         switch (method) {
             case "GET" -> handleGet(httpExchange, path);
-            default -> sendNotFound(httpExchange);
+            default -> sendNotAllowed(httpExchange);
         }
     }
 }

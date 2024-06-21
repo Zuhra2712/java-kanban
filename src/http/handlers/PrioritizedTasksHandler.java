@@ -12,6 +12,7 @@ public class PrioritizedTasksHandler extends BaseHttpHandler {
     }
 
     private void handleGet(HttpExchange httpExchange, String[] path) throws IOException {
+        String response;
         response = gson.toJson(taskManager.getPrioritizedTasks());
         sendText(httpExchange, response, 200);
     }
@@ -24,7 +25,7 @@ public class PrioritizedTasksHandler extends BaseHttpHandler {
 
         switch (method) {
             case "GET" -> handleGet(httpExchange, path);
-            default -> sendNotFound(httpExchange);
+            default -> sendBadReguest(httpExchange);
         }
     }
 }
