@@ -45,5 +45,9 @@ public interface TaskManager {
 
     List<Task> getPrioritizedTasks();
 
+    int addNewEpic(Epic epic);
 
+    int addNewSubtask(Subtask subtask);
+
+    int addNewTask(Task task);
 }
